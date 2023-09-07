@@ -45,10 +45,8 @@ namespace AluguelToten.Controllers
                 CPFUsuario = model.CPFUsuario,
                 nomeUsuario = model.nomeUsuario,
                 CustomIdentityUserId = newUser.Id,
-                
                 emailUsuario = newUser.Email,   
                 dataNascimento = model.dataNascimento
-                // Preencha outras propriedades personalizadas se necessário
             };
             
 
