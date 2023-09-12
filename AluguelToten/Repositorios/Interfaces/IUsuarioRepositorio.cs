@@ -15,6 +15,6 @@ namespace AluguelToten.Repositorios.Interfaces
         Task<UsuarioModel> Adicionar(UsuarioDto carro);
         Task<UsuarioModel> Atualizar(UsuarioDto carro, int id);
         Task<bool> Apagar(int id);
-        Task<UsuarioModel> UsuarioByToken(string token)
+        Task<UsuarioModel> UsuarioByToken(string token);
     }
 }
