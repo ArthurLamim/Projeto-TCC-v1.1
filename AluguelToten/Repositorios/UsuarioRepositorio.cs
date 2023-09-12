@@ -112,7 +112,7 @@ namespace AluguelToten.Repositorios
                 ValidateAudience = false, // Defina como true se desejar validar a audiência (audience)
                 ValidateLifetime = true, // Defina como true se desejar validar a validade do token
                 ValidateIssuerSigningKey = true, // Defina como true se desejar validar a assinatura
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(chaveSecreta)), // Use a chave secreta ou pública aqui
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(chaveSecreta)), 
             };
 
             SecurityToken validatedToken;

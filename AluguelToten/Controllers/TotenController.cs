@@ -72,25 +72,38 @@ namespace AluguelToten.Controllers
             bool apagado = await _totenRepoitorio.Apagar(id);
             return Ok(apagado);
         }
+
         [HttpGet("BuscarPorEndereco")]
-        public IActionResult BuscarTotensPorTexto([FromQuery] string texto)
+        public IActionResult BuscarTotensPorTexto([FromQuery] string texto = null)
         {
             try
             {
                 int teste = 0;
-                try
+                if (!string.IsNullOrWhiteSpace(texto))
                 {
-                     teste = int.Parse(texto);
+                    try
+                    {
+                        teste = int.Parse(texto);
+                    }
+                    catch { }
                 }
-                catch { }
-                // Pesquisa no banco de dados usando o texto recebido
-                var totens = _dataContext.Totens
-                    .Include(t => t.EnderecoModel) // Inclui o relacionamento com o endereço, se necessário
-                    .Where(t => t.EnderecoModel.Rua.Contains(texto) ||
-                                t.EnderecoModel.Cidade.Contains(texto) ||
-                                t.EnderecoModel.Bairro.Contains(texto) ||
-                                t.EnderecoModel.CEP == teste)
-                    .ToList();
+
+                // Defina a consulta base sem incluir o relacionamento
+                var totensQuery = _dataContext.Totens.AsQueryable();
+
+                if (!string.IsNullOrWhiteSpace(texto))
+                {
+                    // Aplica os filtros
+                    totensQuery = totensQuery.Where(t => t.EnderecoModel.Rua.Contains(texto) ||
+                                                        t.EnderecoModel.Cidade.Contains(texto) ||
+                                                        t.EnderecoModel.Bairro.Contains(texto) ||
+                                                        t.EnderecoModel.CEP == teste);
+                }
+
+                // Inclui o relacionamento com EnderecoModel
+                totensQuery = totensQuery.Include(t => t.EnderecoModel);
+
+                var totens = totensQuery.ToList();
 
                 return Ok(totens);
             }
@@ -99,6 +112,7 @@ namespace AluguelToten.Controllers
                 return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
             }
         }
+
 
     }
 }

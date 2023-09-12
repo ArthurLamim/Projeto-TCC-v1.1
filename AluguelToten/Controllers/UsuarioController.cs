@@ -88,6 +88,12 @@ namespace AluguelToten.Controllers
             return Ok(apagado);
         }
 
+        [HttpGet("usuariotoken")]
+        public async Task<ActionResult<UsuarioModel>> BuscarUsuarioJwt(string token)
+        {
+            UsuarioModel usuario = await _usuarioRepositorio.UsuarioByToken(token);
+            return Ok(usuario);
+        }
 
 
     }
